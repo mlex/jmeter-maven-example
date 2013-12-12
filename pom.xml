@@ -22,11 +22,20 @@
         <performancetest.responseTimeout>3000</performancetest.responseTimeout>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+    </dependencies>
+
     <profiles>
         <profile>
             <id>jenkins</id>
             <properties>
-                <performancetest.webservice.host>tomcat7-example-webapp.mlex.cloudbees.net</performancetest.webservice.host>
+                <performancetest.webservice.host>tomcat7-example-webapp.mlex.cloudbees.net
+                </performancetest.webservice.host>
                 <performancetest.webservice.port>80</performancetest.webservice.port>
             </properties>
         </profile>
@@ -73,7 +82,7 @@
                 <artifactId>jmeter-maven-plugin</artifactId>
                 <version>1.8.1</version>
                 <configuration>
-                    <appendResultsTimestamp>false</appendResultsTimestamp>
+                    <testResultsTimestamp>false</testResultsTimestamp>
                     <overrideRootLogLevel>DEBUG</overrideRootLogLevel>
                     <suppressJMeterOutput>false</suppressJMeterOutput>
                     <propertiesUser>
@@ -83,6 +92,9 @@
                         <webservice.connectTimeout>${performancetest.connectTimeout}</webservice.connectTimeout>
                         <webservice.responseTimeout>${performancetest.responseTimeout}</webservice.responseTimeout>
                     </propertiesUser>
+                    <propertiesJMeter>
+                        <jmeter.save.saveservice.thread_counts>true</jmeter.save.saveservice.thread_counts>
+                    </propertiesJMeter>
                 </configuration>
                 <executions>
                     <execution>
@@ -155,14 +167,110 @@
                     <stopKey>STOP</stopKey>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <id>create-graph-threads</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>${project.build.directory}/jmeter/bin</workingDirectory>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <argument>${project.build.directory}/jmeter/lib/*:${project.build.directory}/jmeter/lib/ext/*</argument>
+                                <argument>kg.apc.cmd.UniversalRunner</argument>
+                                <argument>--tool</argument>
+                                <argument>Reporter</argument>
+                                <argument>--input-jtl</argument>
+                                <argument>
+                                    ${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest.jtl
+                                </argument>
+                                <argument>--plugin-type</argument>
+                                <argument>ThreadsStateOverTime</argument>
+                                <argument>--width</argument>
+                                <argument>800</argument>
+                                <argument>--height</argument>
+                                <argument>600</argument>
+                                <argument>--generate-png</argument>
+                                <argument>
+                                    ${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest-ThreadsStateOverTime.png
+                                </argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-graph-response-times</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>${project.build.directory}/jmeter/bin</workingDirectory>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <argument>${project.build.directory}/jmeter/lib/*:${project.build.directory}/jmeter/lib/ext/*</argument>
+                                <argument>kg.apc.cmd.UniversalRunner</argument>
+                                <argument>--tool</argument>
+                                <argument>Reporter</argument>
+                                <argument>--input-jtl</argument>
+                                <argument>
+                                    ${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest.jtl
+                                </argument>
+                                <argument>--plugin-type</argument>
+                                <argument>ResponseTimesOverTime</argument>
+                                <argument>--width</argument>
+                                <argument>800</argument>
+                                <argument>--height</argument>
+                                <argument>600</argument>
+                                <argument>--generate-png</argument>
+                                <argument>
+                                    ${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest-ResponseTimesOverTime.png
+                                </argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-graph-transactions</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>${project.build.directory}/jmeter/bin</workingDirectory>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <argument>${project.build.directory}/jmeter/lib/*:${project.build.directory}/jmeter/lib/ext/*</argument>
+                                <argument>kg.apc.cmd.UniversalRunner</argument>
+                                <argument>--tool</argument>
+                                <argument>Reporter</argument>
+                                <argument>--input-jtl</argument>
+                                <argument>
+                                    ${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest.jtl
+                                </argument>
+                                <argument>--plugin-type</argument>
+                                <argument>TransactionsPerSecond</argument>
+                                <argument>--width</argument>
+                                <argument>800</argument>
+                                <argument>--height</argument>
+                                <argument>600</argument>
+                                <argument>--generate-png</argument>
+                                <argument>
+                                    ${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest-TransactionsPerSecond.png
+                                </argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-        </dependency>
-    </dependencies>
 </project>
