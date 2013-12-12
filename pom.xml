@@ -9,34 +9,84 @@
     <packaging>jar</packaging>
     <name>JMeter Plugins Maven Plugin Example</name>
     <description>
-        Example how to use jmeter-plugins-maven-plugin.
+        Example how to integrate JMeter tests in a maven build.
     </description>
 
-    <dependencies>
-    </dependencies>
+    <properties>
+        <jetty.port>9097</jetty.port>
+        <performancetest.webservice.path>/</performancetest.webservice.path>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>jenkins</id>
+            <properties>
+                <performancetest.webservice.host>tomcat7-example-webapp.mlex.cloudbees.net
+                </performancetest.webservice.host>
+                <performancetest.webservice.port>80</performancetest.webservice.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>local</id>
+            <properties>
+                <performancetest.webservice.host>localhost</performancetest.webservice.host>
+                <performancetest.webservice.port>${jetty.port}</performancetest.webservice.port>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>start-jetty</id>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <daemon>true</daemon>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>stop-jetty</id>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                                <phase>post-integration-test</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>de.codecentric.jmeter</groupId>
-                <artifactId>jmeter-graph-maven-plugin</artifactId>
-                <version>0.1.0-SNAPSHOT</version>
-                <configuration>
-                    <inputFile>test.jtl</inputFile>
-                    <graphs>
-                        <graph>
-                            <pluginType>ResponseTimesOverTime</pluginType>
-                            <width>800</width>
-                            <height>600</height>
-                            <outputFile>test.png</outputFile>
-                        </graph>
-                    </graphs>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>com.lazerycode.jmeter</groupId>
                 <artifactId>jmeter-maven-plugin</artifactId>
-                <version>1.9.0-SNAPSHOT</version>
+                <version>1.8.1</version>
+                <configuration>
+                    <appendResultsTimestamp>false</appendResultsTimestamp>
+                    <overrideRootLogLevel>DEBUG</overrideRootLogLevel>
+                    <suppressJMeterOutput>false</suppressJMeterOutput>
+                    <propertiesUser>
+                        <webservice.host>${performancetest.webservice.host}</webservice.host>
+                        <webservice.port>${performancetest.webservice.port}</webservice.port>
+                        <webservice.path>${performancetest.webservice.path}</webservice.path>
+                    </propertiesUser>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>execute-jmeter-tests</id>
+                        <goals>
+                            <goal>jmeter</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                    </execution>
+                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>kg.apc</groupId>
@@ -83,6 +133,28 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
+            <plugin>
+                <!-- To start an embedded jetty with a simple webapp for demonstration purposes -->
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.14.v20131031</version>
+                <configuration>
+                    <connectors>
+                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                            <port>${jetty.port}</port>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+    </dependencies>
 </project>
