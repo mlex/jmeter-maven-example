@@ -13,12 +13,19 @@ public class ExampleServlet extends GenericServlet {
 
     @Override
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-        try {
-            // Wait a random time between 500 and 1500 msec
-            Thread.sleep(random.nextInt(1000) + 500);
-        } catch (InterruptedException e) {
-            // Don't care if we've been interrupted
-        }
-        res.getOutputStream().print("Hello World");
+		sleep(500);
+		res.getOutputStream().print("Hello ...");
+		res.getOutputStream().flush();
+		sleep(500);
+		res.getOutputStream().print("... World");
     }
+
+	private void sleep(int interval) {
+		try {
+			// Wait a random time between 0.5*interval and 1.5*interval msec
+			Thread.sleep(random.nextInt(interval) + interval/2);
+		} catch (InterruptedException e) {
+			// Don't care if we've been interrupted
+		}
+	}
 }

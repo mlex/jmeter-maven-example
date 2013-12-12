@@ -14,15 +14,19 @@
 
     <properties>
         <jetty.port>9097</jetty.port>
+        <jetty.stopPort>19097</jetty.stopPort>
+        <performancetest.webservice.host>localhost</performancetest.webservice.host>
+        <performancetest.webservice.port>${jetty.port}</performancetest.webservice.port>
         <performancetest.webservice.path>/</performancetest.webservice.path>
+        <performancetest.connectTimeout>1000</performancetest.connectTimeout>
+        <performancetest.responseTimeout>3000</performancetest.responseTimeout>
     </properties>
 
     <profiles>
         <profile>
             <id>jenkins</id>
             <properties>
-                <performancetest.webservice.host>tomcat7-example-webapp.mlex.cloudbees.net
-                </performancetest.webservice.host>
+                <performancetest.webservice.host>tomcat7-example-webapp.mlex.cloudbees.net</performancetest.webservice.host>
                 <performancetest.webservice.port>80</performancetest.webservice.port>
             </properties>
         </profile>
@@ -41,7 +45,7 @@
                             <execution>
                                 <id>start-jetty</id>
                                 <goals>
-                                    <goal>run</goal>
+                                    <goal>start</goal>
                                 </goals>
                                 <phase>pre-integration-test</phase>
                                 <configuration>
@@ -76,6 +80,8 @@
                         <webservice.host>${performancetest.webservice.host}</webservice.host>
                         <webservice.port>${performancetest.webservice.port}</webservice.port>
                         <webservice.path>${performancetest.webservice.path}</webservice.path>
+                        <webservice.connectTimeout>${performancetest.connectTimeout}</webservice.connectTimeout>
+                        <webservice.responseTimeout>${performancetest.responseTimeout}</webservice.responseTimeout>
                     </propertiesUser>
                 </configuration>
                 <executions>
@@ -141,10 +147,12 @@
                 <version>8.1.14.v20131031</version>
                 <configuration>
                     <connectors>
-                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
                             <port>${jetty.port}</port>
                         </connector>
                     </connectors>
+                    <stopPort>${jetty.stopPort}</stopPort>
+                    <stopKey>STOP</stopKey>
                 </configuration>
             </plugin>
         </plugins>
