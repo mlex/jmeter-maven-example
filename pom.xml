@@ -4,12 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.codecentric.jmeter</groupId>
-    <artifactId>jmeter-graph-maven-plugin-example</artifactId>
+    <artifactId>jmeter-maven-example</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>JMeter Plugins Maven Plugin Example</name>
+    <name>JMeter Maven Example</name>
     <description>
-        Example how to integrate JMeter tests in a maven build.
+        Example how to integrate jmeter tests in a maven build and how to automatically 
+        generate graphs from the test results using the jmeter plugins CMDRunner. 
     </description>
 
     <properties>
