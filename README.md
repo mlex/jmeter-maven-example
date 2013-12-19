@@ -1,13 +1,69 @@
 # JMeter Maven Example
 Example how to integrate jmeter tests in a maven build and how to automatically generate graphs from the test results using the jmeter plugins CMDRunner. 
 
+The jmeter tests can easily be used as part of a jenkins-job. See ...
+
+This example was created to accompany a blog post: 
+
+
+## Quickstart
 Just execute
 
 ```bash
-mvn -Plocal verify
+mvn -Pembedded-jetty verify
 ```
 
 This will 
 * start an embedded jetty server wit a small webapp,
 * run jmeter tests (just some http requests) against this webserver and
-* create some nice graphs of the result (you will find them in 'target/jmeter/results').
+* create some nice graphs of the result (you will find them in `target/jmeter/results`).
+
+## JMeter GUI
+
+To start the JMeter GUI, use the `jmeter:gui` goal. The tests are located in `/src/test/jmeter`. If you start the tests, make sure that the example webapp is running. You can start the webapp explicitly with `jetty:run`.
+
+## JMeter Headless
+
+To just execute the jmeter-tests from commandline (without gui, without embedded webapp, without graph-generation), use the `jmeter:jmeter` goal. The tests expect a running example webapp, so make sure at `http://localhost:9097/`. The results of the test-run can be found in `/target/jmeter/results`. If you want graph-generation, run `mvn verify` (without the "local" profile). 
+
+## Configuration
+The following maven-properties are available (to set them from commandline, simply add `-Dproperty=value`)
+
+<table>
+  <tr>
+    <th>Property</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td>jetty.port</td>
+    <td>9097</td>
+  </tr>
+  <tr>
+    <td>performancetest.webservice.host</td>
+    <td>localhost</td>
+  </tr>
+  <tr>
+    <td>performancetest.webservice.port</td>
+    <td>${jetty.port}</td>
+  </tr>
+  <tr>
+    <td>performancetest.webservice.path</td>
+    <td>/</td>
+  </tr>
+  <tr>
+    <td>performancetest.connectTimeout</td>
+    <td>1000</td>
+  </tr>
+  <tr>
+    <td>performancetest.responseTimeout</td>
+    <td>3000</td>
+  </tr>
+  <tr>
+    <td>performancetest.threadCount</td>
+    <td>20</td>
+  </tr>
+  <tr>
+    <td>performancetest.loopCount</td>
+    <td>10</td>
+  </tr>
+</table>

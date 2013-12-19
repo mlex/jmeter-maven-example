@@ -13,10 +13,10 @@ public class ExampleServlet extends GenericServlet {
 
     @Override
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-		sleep(500);
+		sleep(100);
 		res.getOutputStream().print("Hello ...");
 		res.getOutputStream().flush();
-		sleep(500);
+		sleep(100);
 		res.getOutputStream().print("... World");
     }
 
