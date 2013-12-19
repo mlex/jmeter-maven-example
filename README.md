@@ -1,9 +1,9 @@
 # JMeter Maven Example
 Example how to integrate jmeter tests in a maven build and how to automatically generate graphs from the test results using the jmeter plugins CMDRunner. 
 
-The jmeter tests can easily be used as part of a jenkins-job. See ...
+The jmeter tests can easily be used as part of a jenkins-job. See https://mlex.ci.cloudbees.com/job/jmeter-maven-example/
 
-This example was created to accompany a blog post: 
+This example was created to accompany a blog post: coming soon
 
 
 ## Quickstart
