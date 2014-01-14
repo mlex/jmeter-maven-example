@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -24,6 +24,13 @@
         <performancetest.threadCount>20</performancetest.threadCount>
         <performancetest.loopCount>10</performancetest.loopCount>
     </properties>
+    
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>
@@ -80,7 +87,7 @@
             <plugin>
                 <groupId>com.lazerycode.jmeter</groupId>
                 <artifactId>jmeter-maven-plugin</artifactId>
-                <version>1.8.1</version>
+                <version>1.9.0-SNAPSHOT</version>
                 <configuration>
                     <testResultsTimestamp>false</testResultsTimestamp>
                     <overrideRootLogLevel>DEBUG</overrideRootLogLevel>
@@ -98,6 +105,12 @@
                     <propertiesJMeter>
                         <jmeter.save.saveservice.thread_counts>true</jmeter.save.saveservice.thread_counts>
                     </propertiesJMeter>
+                    <jmeterPlugins>
+                        <plugin>
+                            <groupId>kg.apc</groupId>
+                            <artifactId>jmeter-plugins</artifactId>
+                        </plugin>
+                    </jmeterPlugins>
                 </configuration>
                 <executions>
                     <execution>
@@ -125,30 +138,6 @@
                             <exclusion>
                                 <groupId>org.apache.hbase</groupId>
                                 <artifactId>hbase</artifactId>
-                            </exclusion>
-                            <exclusion>
-                                <groupId>org.apache.jmeter</groupId>
-                                <artifactId>jorphan</artifactId>
-                            </exclusion>
-                            <exclusion>
-                                <groupId>org.apache.bsf</groupId>
-                                <artifactId>bsf-api</artifactId>
-                            </exclusion>
-                            <exclusion>
-                                <groupId>org.bouncycastle</groupId>
-                                <artifactId>bcmail-jdk15</artifactId>
-                            </exclusion>
-                            <exclusion>
-                                <groupId>org.bouncycastle</groupId>
-                                <artifactId>bcprov-jdk15</artifactId>
-                            </exclusion>
-                            <exclusion>
-                                <groupId>javax.activation</groupId>
-                                <artifactId>activation</artifactId>
-                            </exclusion>
-                            <exclusion>
-                                <groupId>commons-logging</groupId>
-                                <artifactId>commons-logging</artifactId>
                             </exclusion>
                         </exclusions>
                     </dependency>
