@@ -127,6 +127,11 @@
                         <artifactId>jmeter-plugins</artifactId>
                         <version>1.0.0</version>
                         <exclusions>
+                            <!--
+                                Unfortunately some transitive dependencies cannot be found on mvncentral
+                                and we have to explicitly exclude them.
+                                For a complete list, see https://github.com/mlex/jmeter-maven-example/
+                            -->
                             <exclusion>
                                 <groupId>kg.apc</groupId>
                                 <artifactId>perfmon</artifactId>
@@ -138,6 +143,35 @@
                             <exclusion>
                                 <groupId>org.apache.hbase</groupId>
                                 <artifactId>hbase</artifactId>
+                            </exclusion>
+                            
+                            <!--
+                                These dependencies would override direct JMeter dependencies,
+                                which results in version conflicts (e.g. NoSuchMethodError on jmeter startup
+                            -->
+                            <exclusion>
+                                <groupId>org.apache.jmeter</groupId>
+                                <artifactId>jorphan</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>org.apache.bsf</groupId>
+                                <artifactId>bsf-api</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>org.bouncycastle</groupId>
+                                <artifactId>bcmail-jdk15</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>org.bouncycastle</groupId>
+                                <artifactId>bcprov-jdk15</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>javax.activation</groupId>
+                                <artifactId>activation</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>commons-logging</groupId>
+                                <artifactId>commons-logging</artifactId>
                             </exclusion>
                         </exclusions>
                     </dependency>
