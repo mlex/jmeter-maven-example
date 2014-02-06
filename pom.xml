@@ -198,31 +198,31 @@
                             <goal>create-graph</goal>
                         </goals>
                         <phase>verify</phase>
-                        <configuration>
-                            <inputFile>${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest.jtl</inputFile>
-                            <graphs>
-                                <graph>
-                                    <pluginType>ThreadsStateOverTime</pluginType>
-                                    <width>800</width>
-                                    <height>600</height>
-                                    <outputFile>${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest-ThreadsStateOverTime.png</outputFile>
-                                </graph>
-                                <graph>
-                                    <pluginType>ResponseTimesOverTime</pluginType>
-                                    <width>800</width>
-                                    <height>600</height>
-                                    <outputFile>${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest-ResponseTimesOverTime.png</outputFile>
-                                </graph>
-                                <graph>
-                                    <pluginType>TransactionsPerSecond</pluginType>
-                                    <width>800</width>
-                                    <height>600</height>
-                                    <outputFile>${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest-TransactionsPerSecond.png</outputFile>
-                                </graph>
-                            </graphs>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <inputFile>${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest.jtl</inputFile>
+                    <graphs>
+                        <graph>
+                            <pluginType>ThreadsStateOverTime</pluginType>
+                            <width>800</width>
+                            <height>600</height>
+                            <outputFile>${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest-ThreadsStateOverTime.png</outputFile>
+                        </graph>
+                        <graph>
+                            <pluginType>ResponseTimesOverTime</pluginType>
+                            <width>800</width>
+                            <height>600</height>
+                            <outputFile>${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest-ResponseTimesOverTime.png</outputFile>
+                        </graph>
+                        <graph>
+                            <pluginType>TransactionsPerSecond</pluginType>
+                            <width>800</width>
+                            <height>600</height>
+                            <outputFile>${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest-TransactionsPerSecond.png</outputFile>
+                        </graph>
+                   </graphs>
+                </configuration>
             </plugin>
         </plugins>
     </build>
