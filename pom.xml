@@ -172,6 +172,24 @@
             </plugin>
 
             <plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-analysis-maven-plugin</artifactId>
+                <version>1.0.4</version>
+                <configuration>
+                    <source>${project.build.directory}/jmeter/results/SimpleWebservicePerformanceTest.jtl</source>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-html-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>analyze</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <!-- To start an embedded jetty with a simple webapp for demonstration purposes -->
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
