@@ -1,0 +1,11 @@
+copyartifact:1.35
+git-client:1.16.1
+github-api:1.59
+github:1.11
+git:2.3.4
+jquery:1.7.2-1
+mercurial:1.51
+ruby-runtime:0.12
+scm-api:0.2
+token-macro:1.10
+parameterized-trigger:2.25

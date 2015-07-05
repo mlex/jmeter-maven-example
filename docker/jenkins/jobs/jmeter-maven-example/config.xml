@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<maven2-moduleset plugin="maven-plugin@2.7.1">
+  <actions/>
+  <description>&lt;h2&gt;Result of the last successfull build&lt;/h2&gt;&#xd;
+&lt;p&gt;&lt;a href=&quot;lastSuccessfulBuild/artifact/target/jmeter/results/SimpleWebservicePerformanceTest.jtl&quot;&gt;Test results (as JTL-File)&lt;/a&gt;&lt;/p&gt;&#xd;
+&lt;table width=&quot;100%&quot;&gt;&#xd;
+  &lt;tr&gt;&#xd;
+    &lt;td width=&quot;33%&quot;&gt;&#xd;
+      &lt;img width=&quot;100%&quot; src=&quot;lastSuccessfulBuild/artifact/target/jmeter/results/SimpleWebservicePerformanceTest-ResponseTimesOverTime.png&quot;/&gt;&#xd;
+    &lt;/td&gt;&#xd;
+    &lt;td width=&quot;33%&quot;&gt;&#xd;
+      &lt;img width=&quot;100%&quot; src=&quot;lastSuccessfulBuild/artifact/target/jmeter/results/SimpleWebservicePerformanceTest-ThreadsStateOverTime.png&quot;/&gt;&#xd;
+    &lt;/td&gt;&#xd;
+    &lt;td width=&quot;33%&quot;&gt;&#xd;
+      &lt;img width=&quot;100%&quot; src=&quot;lastSuccessfulBuild/artifact/target/jmeter/results/SimpleWebservicePerformanceTest-TransactionsPerSecond.png&quot;/&gt;&#xd;
+    &lt;/td&gt;&#xd;
+  &lt;/tr&gt;&#xd;
+&lt;/table&gt;</description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>60</daysToKeep>
+    <numToKeep>-1</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.TextParameterDefinition>
+          <name>THREAD_COUNT</name>
+          <description>Number of parallel threads for the load test.</description>
+          <defaultValue>10</defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>LOOP_COUNT</name>
+          <description>Number of iterations for each user thread.</description>
+          <defaultValue>10</defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.4">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/mlex/jmeter-maven-example</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <rootModule>
+    <groupId>de.codecentric.jmeter</groupId>
+    <artifactId>jmeter-maven-example</artifactId>
+  </rootModule>
+  <goals>clean -Pembedded-jetty verify -Dperformancetest.threadCount=$THREAD_COUNT -Dperformancetest.loopCount=$LOOP_COUNT</goals>
+  <aggregatorStyleBuild>true</aggregatorStyleBuild>
+  <incrementalBuild>false</incrementalBuild>
+  <ignoreUpstremChanges>false</ignoreUpstremChanges>
+  <archivingDisabled>false</archivingDisabled>
+  <siteArchivingDisabled>false</siteArchivingDisabled>
+  <fingerprintingDisabled>false</fingerprintingDisabled>
+  <resolveDependencies>false</resolveDependencies>
+  <processPlugins>false</processPlugins>
+  <mavenValidationLevel>-1</mavenValidationLevel>
+  <runHeadless>false</runHeadless>
+  <disableTriggerDownstreamProjects>false</disableTriggerDownstreamProjects>
+  <blockTriggerWhenBuilding>true</blockTriggerWhenBuilding>
+  <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+  <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+  <reporters/>
+  <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>target/jmeter/results/*</artifacts>
+      <allowEmptyArchive>false</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>false</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
+    </hudson.tasks.ArtifactArchiver>
+  </publishers>
+  <buildWrappers/>
+  <prebuilders/>
+  <postbuilders/>
+  <runPostStepsIfResult>
+    <name>FAILURE</name>
+    <ordinal>2</ordinal>
+    <color>RED</color>
+    <completeBuild>true</completeBuild>
+  </runPostStepsIfResult>
+</maven2-moduleset>
